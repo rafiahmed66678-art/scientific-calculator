@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Scientific Calculator – fx-991ES PLUS</title>
+<style>
+:root{--bg:#dfe2e9;--b1:#dcdfe5;--b2:#b4b9c4;--bez:#4b4a7c;--lcd:#c9d9cf;--lt:#17262b;--kf:#2f3139;--kft:#f1f2f5;--kn:#f8f8fa;--knt:#22242b;--ko:#f08a24;--kp:#8b86c2;--gold:#9c6d0c;--red:#c43a2c;--ink:#2a2b33;--pn:rgba(255,255,255,.55)}
+[data-t=dark]{--bg:#121318;--b1:#2c2e37;--b2:#1c1d23;--bez:#2d305e;--lcd:#2a4239;--lt:#aef2d2;--kf:#111218;--kft:#e8e9ee;--kn:#4b4e5a;--knt:#f3f4f8;--ko:#d9731a;--kp:#585490;--gold:#e3b54c;--red:#ff7d6d;--ink:#d9dae0;--pn:rgba(255,255,255,.08)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%}
+body{background:var(--bg);font-family:"Segoe UI",system-ui,sans-serif;color:var(--ink);display:flex;justify-content:center;align-items:center;gap:40px;padding:14px;min-height:100svh;user-select:none;transition:background .25s}
+button{font:inherit;border:0;cursor:pointer;touch-action:manipulation}
+#theme{position:fixed;top:12px;right:12px;background:var(--b1);color:var(--ink);padding:8px 14px;border-radius:20px;box-shadow:0 2px 8px #0003;z-index:5;font-size:14px}
+.wrap{container-type:inline-size;width:min(94vw,440px,50svh)}
+.calc{background:linear-gradient(160deg,var(--b1),var(--b2));border:2.2cqw solid var(--bez);border-radius:7cqw 7cqw 16cqw 16cqw;padding:3.5cqw 4cqw 6cqw;box-shadow:0 3cqw 8cqw #0005}
+.brand{display:grid;grid-template-columns:1fr 38%;align-items:center;margin-bottom:3cqw}
+.brand b{font-size:6cqw;letter-spacing:.3cqw;grid-column:1}
+.brand i{font:italic 3.4cqw Georgia,serif;grid-column:1}
+.brand small{font-size:2.6cqw;color:#1b7a74;font-weight:700;grid-column:1}
+.solar{grid-column:2;grid-row:1/4;height:11cqw;background:linear-gradient(90deg,#3a2420 0 24%,#4a2d26 24% 26%,#3a2420 26% 49%,#4a2d26 49% 51%,#3a2420 51% 74%,#4a2d26 74% 76%,#3a2420 76%);border-radius:1.2cqw;border:.4cqw solid #0006}
+.lcd{background:var(--lcd);color:var(--lt);border-radius:1.6cqw;border:.5cqw solid #0004;box-shadow:inset 0 .6cqw 1.6cqw #0004;height:36cqw;padding:1.2cqw 2.6cqw;display:flex;flex-direction:column;font-family:"Share Tech Mono","Consolas",ui-monospace,monospace;margin-bottom:4cqw;overflow:hidden}
+.lcd.off{filter:brightness(.55);color:transparent}.lcd.off *{visibility:hidden}
+.ind{display:flex;gap:1.6cqw;font-size:2.3cqw;font-weight:700;height:3.2cqw;font-family:system-ui,sans-serif}.ind span{visibility:hidden}.ind span.on{visibility:visible}.ind .m{margin-left:auto;visibility:visible}
+.ln{position:relative;font-size:6.4cqw;white-space:nowrap;overflow:hidden;min-height:12cqw;line-height:12cqw;margin-top:.4cqw}
+.cu{display:inline-block;width:.5cqw;height:6cqw;background:currentColor;vertical-align:middle;animation:bl 1s steps(1) infinite}.done .cu{display:none}
+@keyframes bl{50%{opacity:0}}
+.rs{margin-top:auto;text-align:right;font-size:8.6cqw;line-height:1.1;white-space:nowrap;overflow:hidden;min-height:14cqw;display:flex;justify-content:flex-end;align-items:center;gap:1cqw}
+.rs.err{font-size:6cqw}
+.rs sup{font-size:.55em;vertical-align:.7em}
+.fr{display:inline-flex;flex-direction:column;align-items:center;font-size:.8em;line-height:1;vertical-align:middle}.fr>i{font-style:normal;padding:.05em .15em;min-width:.7em;min-height:.9em;text-align:center}.fr>i:first-child{border-bottom:.08em solid currentColor}
+.mx,.rt,.in{display:inline-flex;align-items:center;vertical-align:middle}.mx{gap:.12em}
+.rt{align-items:stretch}.rd{font-size:1.1em;line-height:1}.rc{border-top:.08em solid currentColor;padding:0 .1em;min-width:.6em}
+sup.ix{font-size:.5em;align-self:flex-start;vertical-align:baseline;line-height:1}
+sup.pw{font-size:.6em;vertical-align:.95em;line-height:0}sub.lg{font-size:.6em;vertical-align:-.3em;line-height:0}
+.is{font-size:1.5em;line-height:1}.il{display:inline-flex;flex-direction:column;font-size:.5em;margin:0 .25em;line-height:1.1}.in small{font-size:.6em;margin-left:.15em}
+.bx{display:inline-block;width:.5em;height:.75em;border:.07em dotted currentColor;vertical-align:middle;margin:0 .05em}
+.bxi{display:inline-block;width:.55em;height:.55em;border:.1em solid currentColor;border-radius:.1em;vertical-align:-.05em}
+.k sup,.k sub{font-size:.6em;line-height:0}.k sup .bxi,.k sub .bxi{width:.45em;height:.45em}
+.fi{display:inline-flex;flex-direction:column;align-items:center;gap:.08em;vertical-align:middle}.fi s{width:1em;border-top:.1em solid currentColor}
+.so{display:inline-flex;align-items:flex-end}.oc{border-top:.1em solid currentColor;margin-left:.05em;padding:.08em .05em 0}
+.mn{display:grid;grid-template-columns:1fr 1fr;font-size:3.9cqw;gap:.3cqw 3cqw;line-height:1.35;margin-top:.5cqw}.mt{font-size:4cqw;font-weight:700}
+.top,.g6,.g5{display:grid;column-gap:2.4cqw}
+.top{grid-template-columns:1fr 1fr 1.7fr 1fr 1fr;margin-bottom:1cqw}
+.g6{grid-template-columns:repeat(6,1fr);margin-bottom:.6cqw}
+.g5{grid-template-columns:repeat(5,1fr);column-gap:3cqw}
+.c{display:flex;flex-direction:column;gap:.5cqw;margin-bottom:2.2cqw;min-width:0}
+.lb{display:flex;justify-content:space-between;font-size:2.55cqw;line-height:1;min-height:2.8cqw;white-space:nowrap}
+.lb .s{color:var(--gold)}.lb .a{color:var(--red)}.lb u{text-decoration:none;color:var(--ink)}
+.k{height:6.6cqw;border-radius:2cqw 2cqw 2.4cqw 2.4cqw;background:var(--kf);color:var(--kft);font-size:3.9cqw;font-weight:600;box-shadow:0 .5cqw 0 #0008,inset 0 .3cqw .4cqw #fff3;padding:0;transition:transform .06s}
+.k:active{transform:translateY(.4cqw);box-shadow:0 .1cqw 0 #0008}
+.g5 .k{height:9cqw;font-size:5.4cqw;border-radius:3cqw 3cqw 4cqw 4cqw}
+.g5 .k.n{font-weight:500}
+.k.n{background:var(--kn);color:var(--knt);box-shadow:0 .5cqw 0 #0006,inset 0 .3cqw .4cqw #fff9}
+.k.o{background:var(--ko);color:#fff;border-radius:3cqw}
+.k.p{background:var(--kp);height:5.8cqw;border-radius:50%/60%}
+.k.on{outline:.5cqw solid var(--gold)}.k.p.al.on{outline-color:var(--red)}
+.pad{grid-column:3;grid-row:1/3;position:relative;aspect-ratio:1;align-self:center;justify-self:center;width:90%;border-radius:50%;background:var(--kp);box-shadow:0 .6cqw 0 #0007,inset 0 .4cqw .6cqw #fff4;margin-bottom:1.5cqw}
+.pad::after{content:"REPLAY";position:absolute;inset:0;display:grid;place-items:center;font-size:2.5cqw;color:#fff9;pointer-events:none}
+.pad button{position:absolute;background:none;color:#fff9;font-size:3cqw;width:35%;height:35%}
+.pad button:active{color:#fff}
+.pad .up{top:2%;left:32%}.pad .down{bottom:2%;left:32%}.pad .left{left:2%;top:32%}.pad .right{right:2%;top:32%}
+aside{width:260px;max-height:80svh;display:none;flex-direction:column;gap:8px}
+aside h3{margin:0;font-size:15px}aside ul{list-style:none;margin:0;padding:0;overflow:auto;display:flex;flex-direction:column;gap:6px}
+aside li button{width:100%;text-align:left;background:var(--b1);color:var(--ink);padding:8px 10px;border-radius:8px;font:13px ui-monospace,monospace}
+aside li small{display:block;opacity:.65}
+aside p{font-size:12px;opacity:.75;line-height:1.6;margin:0}
+@media(min-width:900px){aside{display:flex}}
+</style>
+</head>
+<body>
+<button id="theme" aria-label="Toggle theme">ডার্ক মোড</button>
+<div class="wrap"><div class="calc">
+  <div class="brand"><b>CASIO</b><i>fx-991ES PLUS</i><small>NATURAL-V.P.A.M.</small><div class="solar"></div></div>
+  <div class="lcd" id="lcd">
+    <div class="ind" id="ind"><span id="iS">S</span><span id="iA">A</span><span id="iH">hyp</span><span id="iM">M</span><span id="iO">STO</span><span id="iD">D</span><span id="iF"></span><span class="m" id="iL">Math ▼▲</span></div>
+    <div class="ln" id="ln"></div><div class="rs" id="rs"></div>
+  </div>
+  <div id="keys"></div>
+</div></div>
+<aside><h3>History</h3><ul id="hist"></ul>
+<p>কিবোর্ড: 0-9 + − × ÷ ( ) ^ ! % — Enter = &nbsp;·&nbsp; Backspace DEL &nbsp;·&nbsp; Esc AC &nbsp;·&nbsp; s c t = sin cos tan, l = log, n = ln, r = √, p = π, a = Ans</p></aside>
+
+<script>
+const $=s=>document.querySelector(s);
+const S={ex:"",cur:0,shift:0,alpha:0,hyp:0,pend:0,ang:"D",fmt:"N",dig:0,math:1,eng:0,base:10,ans:0,res:null,vars:{},hist:[],hi:-1,menu:null,prompt:null,off:0,ins:0,done:0,dec:0,mixed:0,dms:0,err:""};
+const LM={neg:"A",dms:"B",hyp:"C",sin:"D",cos:"E",tan:"F",rp:"X",sd:"Y",mp:"M"};
+const bx='<b class="bxi"></b>',F={integ:'∫'+bx,inv:'x<sup>−1</sup>',logb:'log<sub>'+bx+'</sub>',frac:'<span class="fi">'+bx+'<s></s>'+bx+'</span>',sqrt:'<span class="so">√<span class="oc">'+bx+'</span></span>',sq:'x<sup>2</sup>',pw:'x<sup>'+bx+'</sup>'};
+/* id, face, shift label, alpha label, main, shift, alpha */
+const R1=[["calc","CALC","SOLVE","=","@calc","@solve","="],["integ",F.integ,"d/dx",":","@T:∫","d/dx("],["inv",F.inv,"x!","","@pw:−1","!"],["logb",F.logb,"Σ","","@T:ℓ","Σ("]];
+const R2=[["frac",F.frac,"a b/c","","@T:ƒ","@T:ᵐ"],["sqrt",F.sqrt,"∛","","@T:ʀ","@T:ᶜ"],["sq",F.sq,"x³","","@pw:2","@pw:3"],["pw",F.pw,"ˣ√","","@T:↑","@T:ⁿ"],["log","log","10ˣ","","log(","@bx:10"],["ln","ln","eˣ","","ln(","@bx:e"]];
+const R3=[["neg","(−)","∠","A","@neg","","A"],["dms","°′″","←","B","°","@dms","B"],["hyp","hyp","Abs","C","@hyp","Abs(","C"],["sin","sin","sin⁻¹","D","@t:sin","@t:asin","D"],["cos","cos","cos⁻¹","E","@t:cos","@t:acos","E"],["tan","tan","tan⁻¹","F","@t:tan","@t:atan","F"]];
+const R4=[["rcl","RCL","STO","","@rcl","@sto"],["eng","ENG","←","i","@eng","@eng"],["lp","(","%","","(","%"],["rp",")",",","X",")",",","X"],["sd","S⇔D","a b/c⇔d/c","Y","@sd","@mixed","Y"],["mp","M+","M−","M","@mp:1","@mp:-1","M"]];
+const R5=[["d7","7","CONST","","7","@menu:const"],["d8","8","CONV","","8","@menu:conv"],["d9","9","CLR","","9","@menu:clr"],["del","DEL","INS","","@del","@ins"],["ac","AC","OFF","","@ac","@off"]];
+const R6=[["d4","4","MATRIX","","4","@soon"],["d5","5","VECTOR","","5","@soon"],["d6","6","","","6"],["mul","×","nPr","","×","nPr"],["div","÷","nCr","","÷","nCr"]];
+const R7=[["d1","1","STAT","","1","@soon"],["d2","2","CMPLX","","2","@soon"],["d3","3","BASE","","3","@menu:base"],["add","+","Pol","","+","Pol("],["sub","−","Rec","","−","Rec("]];
+const R8=[["d0","0","Rnd","","0","Rnd("],["dot","•","Ran#","RanInt",".","Ran#","RanInt("],["exp","×10<sup>ˣ</sup>","π","e","@bx:×10","π","e"],["ans","Ans","DRG▸","","Ans","@menu:drg"],["eq","=","","","@eq"]];
+const T0=[["shift","","SHIFT",""],["alpha","","","ALPHA"],0,["mode","","<u>MODE</u> SETUP","","@menu:mode","@menu:mode"],["on","","<u>ON</u>","","@ac"]];
+const KM={left:["@mv:l"],right:["@mv:r"],up:["@mv:u"],down:["@mv:d"]};
+function cell(d,cls){KM[d[0]]=d.slice(4);const e=document.createElement("div");e.className="c";
+ e.innerHTML=`<div class="lb"><span class="s">${d[2]}</span><span class="a">${d[3]}</span></div><button class="k ${cls}" id="k_${d[0]}" data-k="${d[0]}">${d[1]}</button>`;return e}
+function row(cn,list,cl){const g=document.createElement("div");g.className=cn;list.forEach(d=>g.appendChild(cell(d,typeof cl==="function"?cl(d):cl)));$("#keys").appendChild(g)}
+(function build(){const g=document.createElement("div");g.className="top";
+ const a=[T0[0],T0[1],T0[3],T0[4]],b=R1;
+ g.appendChild(cell(a[0],"p"));g.appendChild(cell(a[1],"p al"));
+ const pad=document.createElement("div");pad.className="pad";pad.innerHTML=["up▲","down▼","left◀","right▶"].map(x=>`<button class="${x.slice(0,-1)}" data-k="${x.slice(0,-1)}">${x.slice(-1)}</button>`).join("");g.appendChild(pad);
+ g.appendChild(cell(a[2],"p"));g.appendChild(cell(a[3],"p"));
+ g.appendChild(cell(b[0],""));g.appendChild(cell(b[1],""));g.appendChild(cell(b[2],""));g.appendChild(cell(b[3],""));
+ /* order grid: row1 = shift alpha pad mode on ; row2 = calc integ (pad) inv logb */
+ [...g.children].forEach(el=>{});
+ const cs=[...g.children];g.innerHTML="";
+ [cs[0],cs[1],cs[2],cs[3],cs[4],cs[5],cs[6],cs[7],cs[8]].forEach(x=>g.appendChild(x));
+ $("#keys").appendChild(g);
+ row("g6",R2,"");row("g6",R3,"");row("g6",R4,"");
+ row("g5",R5,d=>/del|ac/.test(d[0])?"o":"n");row("g5",R6,d=>/mul|div/.test(d[0])?"n":"n");row("g5",R7,"n");row("g5",R8,"n");
+ /* arrange top grid placement */
+ const t=$(".top");t.style.gridTemplateRows="auto auto";
+ const kids=[...t.children];kids.forEach(k=>{k.style.gridColumn="";k.style.gridRow=""});
+ const pos=[[1,1],[2,1],[3,1],[4,1],[5,1],[1,2],[2,2],[4,2],[5,2]];
+ const order=[kids[0],kids[1],kids[2],kids[3],kids[4],kids[5],kids[6],kids[7],kids[8]];
+ order.forEach((k,i)=>{k.style.gridColumn=pos[i][0];k.style.gridRow=pos[i][1]});
+ pad.style.gridRow="1 / 3";
+})();
+
+/* ---------- natural-display templates ---------- */
+/* ƒ frac | ᵐ mixed | ʀ sqrt | ᶜ cbrt | ⁿ nth-root | ↑ power | ℓ log-base | ∫ integral ; slots split by ¦ , closed by ⟧ */
+const HD={"ƒ":2,"ᵐ":3,"ʀ":1,"ᶜ":1,"ⁿ":2,"↑":1,"ℓ":2,"∫":3};
+const tpl=(c,a)=>{const w=x=>"("+(x||"")+")";return c==="ƒ"?`(${w(a[0])}÷${w(a[1])})`:c==="ᵐ"?`(${w(a[0])}+${w(a[1])}÷${w(a[2])})`:c==="ʀ"?"√"+w(a[0]):c==="ᶜ"?"∛"+w(a[0]):c==="↑"?"^"+w(a[0]):c==="ⁿ"?`root(${a[0]||""},${a[1]||""})`:c==="ℓ"?`log(${a[0]||""},${a[1]||""})`:`∫(${a[0]||""},${a[1]||""},${a[2]||""})`};
+function toEng(s){let i=0;function seq(){let o="";while(i<s.length&&s[i]!=="¦"&&s[i]!=="⟧"){const c=s[i++];if(HD[c]){const a=[];do{a.push(seq())}while(s[i]==="¦"&&++i);if(s[i]==="⟧")i++;o+=tpl(c,a)}else o+=c}return o}return seq()}
+function slotsOf(s,at){const r=[];let st=at+1,dp=0;for(let i=at+1;i<s.length;i++){const ch=s[i];if(HD[ch])dp++;else if(ch==="⟧"){if(!dp){r.push([st,i]);return r}dp--}else if(ch==="¦"&&!dp){r.push([st,i]);st=i+1}}r.push([st,s.length]);return r}
+function stk(s,c){const st=[];for(let i=0;i<c;i++){const ch=s[i];if(HD[ch])st.push({h:ch,at:i,k:0});else if(ch==="¦"&&st.length)st[st.length-1].k++;else if(ch==="⟧")st.pop()}return st}
+const VM={"ƒ":{u:{1:0},d:{0:1}},"ᵐ":{u:{2:1},d:{1:2}},"∫":{u:{1:2},d:{2:1}},"ℓ":{u:{0:1},d:{1:0}},"↑":{d:{0:-1}}};
+function vmove(d){const st=stk(S.ex,S.cur);for(let j=st.length-1;j>=0;j--){const e=st[j],m=(VM[e.h]||{})[d];if(m&&e.k in m){const sl=slotsOf(S.ex,e.at),t=m[e.k];S.cur=t<0?Math.min(S.ex.length,sl[sl.length-1][1]+1):sl[t][0];return true}}return false}
+const ht=(c,a)=>{const[x,y,z]=a;return c==="ƒ"?`<span class="fr"><i>${x}</i><i>${y}</i></span>`:c==="ᵐ"?`<span class="mx">${x}<span class="fr"><i>${y}</i><i>${z}</i></span></span>`:c==="ʀ"?`<span class="rt"><span class="rd">√</span><span class="rc">${x}</span></span>`:c==="ᶜ"?`<span class="rt"><sup class="ix">3</sup><span class="rd">√</span><span class="rc">${x}</span></span>`:c==="ⁿ"?`<span class="rt"><sup class="ix">${x}</sup><span class="rd">√</span><span class="rc">${y}</span></span>`:c==="↑"?`<sup class="pw">${x}</sup>`:c==="ℓ"?`log<sub class="lg">${x}</sub>(${y})`:`<span class="in"><span class="is">∫</span><span class="il"><span>${z}</span><span>${y}</span></span><span>${x}</span><small>dx</small></span>`};
+function view(s,cur){let i=0;const E=c=>c==="<"?"&lt;":c==="&"?"&amp;":c,B='<b class="bx"></b>';
+ function seq(){let o="";for(;;){if(i===cur)o+='<i class="cu"></i>';if(i>=s.length||s[i]==="¦"||s[i]==="⟧")return o;const c=s[i++];if(HD[c]){const a=[];do{const st=i,h=seq();a.push(h+(i===st?B:""))}while(s[i]==="¦"&&++i);if(s[i]==="⟧")i++;o+=ht(c,a)}else o+=E(c)}}
+ return seq()}
+
+/* ---------- engine ---------- */
+const NAMES=["asinh","acosh","atanh","sinh","cosh","tanh","asin","acos","atan","sin","cos","tan","log","ln","Abs","RanInt","Rnd","Pol","Rec","root","d/dx","∫","Σ"];
+const tr=x=>S.ang==="D"?x*Math.PI/180:S.ang==="G"?x*Math.PI/200:x;
+const fr=x=>S.ang==="D"?x*180/Math.PI:S.ang==="G"?x*200/Math.PI:x;
+const rz=v=>Math.abs(v)<1e-14?0:v;
+const MERR="Math ERROR";
+const FN={sin:x=>rz(Math.sin(tr(x))),cos:x=>rz(Math.cos(tr(x))),tan:x=>{const r=tr(x);if(Math.abs(Math.cos(r))<1e-14)throw MERR;return rz(Math.tan(r))},
+ asin:x=>fr(Math.asin(x)),acos:x=>fr(Math.acos(x)),atan:x=>fr(Math.atan(x)),sinh:Math.sinh,cosh:Math.cosh,tanh:Math.tanh,asinh:Math.asinh,acosh:Math.acosh,atanh:Math.atanh,
+ log:(a,b)=>b===undefined?Math.log10(a):Math.log(b)/Math.log(a),ln:Math.log,Abs:Math.abs,Rnd:x=>+x.toPrecision(10),
+ root:(n,x)=>x<0&&n%2===1?-Math.pow(-x,1/n):Math.pow(x,1/n),RanInt:(a,b)=>a+Math.floor(Math.random()*(b-a+1)),
+ Pol:(x,y)=>{const r=Math.hypot(x,y);S.vars.X=r;S.vars.Y=fr(Math.atan2(y,x));return r},Rec:(r,t)=>{S.vars.X=r*Math.cos(tr(t));S.vars.Y=r*Math.sin(tr(t));return S.vars.X}};
+function tok(s){const T=[];let i=0;
+ while(i<s.length){const c=s[i];if(c===" "){i++;continue}
+  const m=/^(?:\d+\.?\d*|\.\d+)/.exec(s.slice(i));if(m){T.push({t:"n",v:parseFloat(m[0])});i+=m[0].length;continue}
+  if(s.startsWith("Ans",i)){T.push({t:"v",v:"Ans"});i+=3;continue}
+  if(s.startsWith("Ran#",i)){T.push({t:"v",v:"Ran#"});i+=4;continue}
+  if(s.startsWith("nPr",i)||s.startsWith("nCr",i)){T.push({t:"o",v:s.slice(i,i+3)});i+=3;continue}
+  const n=NAMES.find(n=>s.startsWith(n,i));if(n){T.push({t:"f",v:n});i+=n.length;continue}
+  T.push({t:"o",v:c==="-"?"−":c==="*"?"×":c==="/"?"÷":c});i++}
+ return T}
+const VS=new Set([..."(√∛πeABCDEFXYM"]);
+function compile(src){const T=tok(src);let p=0;const pk=()=>T[p],nx=()=>T[p++];
+ const sv=t=>t&&(t.t==="n"||t.t==="v"||t.t==="f"||(t.t==="o"&&VS.has(t.v)));
+ const is=(...a)=>pk()&&pk().t==="o"&&a.includes(pk().v);
+ const expr=()=>{let a=term();while(is("+","−")){const o=nx().v,b=term(),x=a;a=o==="+"?v=>x(v)+b(v):v=>x(v)-b(v)}return a};
+ const term=()=>{let a=un();for(;;){let o;if(is("×","÷"))o=nx().v;else if(sv(pk()))o="×";else break;const b=un(),x=a;
+  a=o==="×"?v=>x(v)*b(v):v=>{const d=b(v);if(d===0)throw MERR;return x(v)/d}}return a};
+ const un=()=>{if(is("−","+")){const o=nx().v,a=un();return o==="−"?v=>-a(v):a}return perm()};
+ const perm=()=>{let a=frac();while(is("nPr","nCr")){const o=nx().v,b=frac(),x=a;
+  a=v=>{const n=x(v),r=b(v);if(!Number.isInteger(n)||!Number.isInteger(r)||r>n||r<0)throw MERR;let p=1;for(let i=0;i<r;i++)p*=n-i;if(o==="nCr")for(let i=2;i<=r;i++)p/=i;return Math.round(p)}}return a};
+ const frac=()=>{let a=power();for(;;){if(is("⁄")){nx();const b=power(),x=a;a=v=>{const d=b(v);if(d===0)throw MERR;return x(v)/d}}
+  else if(is("⁀")){nx();const n=power();if(!is("⁄"))throw"Syntax ERROR";nx();const d=power(),x=a;a=v=>x(v)+n(v)/d(v)}else break}return a};
+ const power=()=>{const b=post();if(is("^")){nx();const e=un();return v=>Math.pow(b(v),e(v))}return b};
+ const post=()=>{let a=prim();while(is("!","%","°","ʳ","ᵍ")){const o=nx().v,x=a;
+  a=o==="!"?v=>{const n=x(v);if(!Number.isInteger(n)||n<0||n>170)throw MERR;let f=1;for(let i=2;i<=n;i++)f*=i;return f}
+   :o==="%"?v=>x(v)/100
+   :o==="°"?v=>S.ang==="D"?x(v):S.ang==="R"?x(v)*Math.PI/180:x(v)*10/9
+   :o==="ʳ"?v=>S.ang==="D"?x(v)*180/Math.PI:S.ang==="R"?x(v):x(v)*200/Math.PI
+   :v=>S.ang==="D"?x(v)*.9:S.ang==="R"?x(v)*Math.PI/200:x(v)}return a};
+ const prim=()=>{const t=nx();if(!t)throw"Syntax ERROR";
+  if(t.t==="n")return()=>t.v;
+  if(t.t==="v")return t.v==="Ans"?()=>S.ans:()=>Math.floor(Math.random()*1000)/1000;
+  if(t.t==="f"){if(!is("("))throw"Syntax ERROR";nx();const a=[];do{a.push(expr())}while(is(",")&&nx());if(is(")"))nx();const n=t.v;
+   if(n==="∫")return v=>{const f=a[0],lo=a[1](v),hi=a[2](v),N=2000,h=(hi-lo)/N;let s=0;for(let i=0;i<=N;i++)s+=(i===0||i===N?1:i%2?4:2)*f({...v,X:lo+i*h});return +(s*h/3).toPrecision(12)};
+   if(n==="Σ")return v=>{let s=0;const lo=a[1](v),hi=a[2](v);for(let x=lo;x<=hi&&x-lo<1e6;x++)s+=a[0]({...v,X:x});return s};
+   if(n==="d/dx")return v=>{const f=a[0],x=a[1](v),h=1e-3,g=d=>f({...v,X:x+d});return +((-g(2*h)+8*g(h)-8*g(-h)+g(-2*h))/(12*h)).toPrecision(10)};
+   return v=>FN[n](...a.map(f=>f(v)))}
+  const o=t.v;
+  if(o==="(" ){const e=expr();if(is(")"))nx();return e}
+  if(o==="√"){const x=post();return v=>Math.sqrt(x(v))}
+  if(o==="∛"){const x=post();return v=>Math.cbrt(x(v))}
+  if(o==="π")return()=>Math.PI;if(o==="e")return()=>Math.E;
+  if("ABCDEFXYM".includes(o)&&o.length===1)return v=>v[o]??0;
+  throw"Syntax ERROR"};
+ const f=expr();if(p<T.length)throw"Syntax ERROR";return f}
+const ev=(s,v)=>compile(s)(v||S.vars);
+
+/* ---------- formatting ---------- */
+function toFrac(x){if(Number.isInteger(x))return null;const s=x<0?-1:1,a=Math.abs(x);let n0=0,d0=1,n1=1,d1=0,b=a;
+ for(let i=0;i<40;i++){const q=Math.floor(b),n2=q*n1+n0,d2=q*d1+d0;n0=n1;d0=d1;n1=n2;d1=d2;if(d1>9999||n1>99999999)return null;
+  if(Math.abs(a-n1/d1)<1e-13*Math.max(1,a))return[s*n1,d1];b=1/(b-q);if(!isFinite(b))break}return null}
+const sci=(m,e)=>`${m}×10<sup>${e}</sup>`;
+function fmtNum(x){if(x===0)return"0";if(S.base!==10&&Number.isInteger(x))return x.toString(S.base).toUpperCase();
+ const e=Math.floor(Math.log10(Math.abs(x)));
+ if(S.eng){const e3=Math.floor(e/3)*3;return sci(+(x/10**e3).toPrecision(10),e3)}
+ if(S.fmt==="F")return x.toFixed(S.dig);
+ if(S.fmt==="S"){const[m,ex]=x.toExponential(S.dig-1).split("e");return sci(m,+ex)}
+ const s=+x.toPrecision(10);
+ if(Math.abs(s)>=1e10||Math.abs(s)<1e-9||/e/.test(String(s))){const[m,ex]=s.toExponential(9).split("e");return sci(+m,+ex)}
+ return String(s)}
+function dmsStr(v){const s=v<0?"−":"",a=Math.abs(v),d=Math.floor(a),r=(a-d)*60,m=Math.floor(r);return`${s}${d}°${m}′${+((r-m)*60).toFixed(2)}″`}
+const stack=(n,d)=>`<span class="fr"><i>${n}</i><i>${d}</i></span>`;
+function resHTML(){const r=S.res;if(!r)return"";const v=r.v,lab=r.lab||"";
+ if(S.dms)return lab+dmsStr(v);
+ if(S.math&&!S.dec&&S.fmt==="N"&&!S.eng&&S.base===10){const f=toFrac(v);if(f){let[n,d]=f;const sg=n<0?"−":"";n=Math.abs(n);
+  if(S.mixed&&n>d)return lab+sg+Math.floor(n/d)+stack(n%d,d);return lab+sg+stack(n,d)}}
+ return lab+fmtNum(v)}
+const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+
+/* ---------- state actions ---------- */
+function put(t,fresh){if(S.done){S.done=0;if(!fresh&&/^(?:[+−×÷^!%↑]|⁄|nPr|nCr)/.test(t)){S.ex="Ans";S.cur=3}else{S.ex="";S.cur=0}}
+ S.res=null;S.hi=-1;if(S.ins&&S.cur<S.ex.length)S.ex=S.ex.slice(0,S.cur)+S.ex.slice(S.cur+1);
+ S.ex=S.ex.slice(0,S.cur)+t+S.ex.slice(S.cur);S.cur+=t.length}
+function eq(){if(!S.ex)return;try{let v=ev(toEng(S.ex));if(typeof v!=="number"||!isFinite(v))throw MERR;v=+v.toPrecision(15);
+  S.ans=v;S.res={v};S.done=1;S.dec=/\./.test(S.ex)?1:0;S.mixed=0;S.dms=0;pushHist()}
+ catch(e){S.err=typeof e==="string"?e:"Syntax ERROR";S.cur=S.ex.length;S.done=0;S.res=null}}
+function pushHist(){const h=resHTML().replace(/<sup>/g,"^").replace(/<[^>]+>/g,"");S.hist.unshift([S.ex,h]);if(S.hist.length>40)S.hist.pop();
+ $("#hist").innerHTML=S.hist.map((x,i)=>`<li><button data-h="${i}"><small>${esc(toEng(x[0]))}</small>= ${esc(x[1])}</button></li>`).join("")}
+function vars(){const o=[];tok(toEng(S.ex)).forEach(t=>{if(t.t==="o"&&t.v.length===1&&"ABCDEFXYM".includes(t.v)&&!o.includes(t.v))o.push(t.v)});return o}
+function doSolve(){try{const[l,r]=toEng(S.ex).split("="),f=compile(l),g=compile(r||"0"),h=x=>{const w={...S.vars,X:x};return f(w)-g(w)};
+  let x=S.vars.X||0,ok=0;
+  for(let i=0;i<200;i++){const y=h(x),dx=1e-7*(1+Math.abs(x)),d=(h(x+dx)-y)/dx;if(!isFinite(y)||!isFinite(d)||d===0)break;const n=x-y/d;if(Math.abs(n-x)<1e-14*(1+Math.abs(x))){x=n;ok=1;break}x=n}
+  if(!ok||Math.abs(h(x))>1e-7){ok=0;let px=-1000,py=h(px);for(let t=-999.5;t<=1000;t+=.5){const ty=h(t);if(isFinite(py)&&isFinite(ty)&&py*ty<=0){let a=px,b=t;for(let k=0;k<200;k++){const m=(a+b)/2;(h(a)*h(m)<=0)?b=m:a=m}x=(a+b)/2;ok=1;break}px=t;py=ty}}
+  if(!ok||Math.abs(h(x))>1e-6)throw"Can't Solve";x=+x.toPrecision(12);S.vars.X=x;S.ans=x;S.res={v:x,lab:"X="};S.done=1;S.dec=0;S.dms=0}
+ catch(e){S.err=typeof e==="string"?e:"Syntax ERROR"}}
+const CT=[["c₀ 299792458","299792458"],["h 6.626×10⁻³⁴","6.62607015×10^(−34)"],["G 6.674×10⁻¹¹","6.6743×10^(−11)"],["g 9.80665","9.80665"],["e 1.602×10⁻¹⁹","1.602176634×10^(−19)"],["Nₐ 6.022×10²³","6.02214076×10^(23)"],["k 1.381×10⁻²³","1.380649×10^(−23)"],["R 8.3145","8.314462618"],["mₑ 9.109×10⁻³¹","9.1093837015×10^(−31)"]];
+const CV=[["in▸cm","×2.54"],["cm▸in","÷2.54"],["mile▸km","×1.609344"],["km▸mile","÷1.609344"],["lb▸kg","×0.45359237"],["kg▸lb","÷0.45359237"],["°F▸°C","F"],["°C▸°F","C"]];
+const MN={
+ mode:()=>({t:"MODE",i:[["Deg",()=>S.ang="D"],["Rad",()=>S.ang="R"],["Gra",()=>S.ang="G"],["Fix",()=>S.menu={t:"Fix 0~9 ?",dg:"F"}],["Sci",()=>S.menu={t:"Sci 1~10 (0=10) ?",dg:"S"}],["Norm",()=>{S.fmt="N";S.eng=0}],[S.math?"LineIO":"MathIO",()=>S.math^=1]]}),
+ const:()=>({t:"CONST",i:CT.map(c=>[c[0],()=>put("("+c[1]+")")])}),
+ conv:()=>({t:"CONV",i:CV.map(c=>[c[0],()=>{const b=S.done?"Ans":(S.ex||"Ans");S.ex=c[1]==="F"?`((${b})−32)÷1.8`:c[1]==="C"?`(${b})×1.8+32`:`(${b})${c[1]}`;S.done=0;eq()}])}),
+ clr:()=>({t:"CLR",i:[["Setup",()=>{S.ang="D";S.fmt="N";S.eng=0;S.math=1;S.base=10}],["Memory",()=>{S.vars={}}],["All",()=>{S.ang="D";S.fmt="N";S.eng=0;S.math=1;S.base=10;S.vars={};S.hist=[];$("#hist").innerHTML=""}]]}),
+ drg:()=>({t:"DRG▸",i:[["°",()=>put("°")],["ʳ",()=>put("ʳ")],["ᵍ",()=>put("ᵍ")]]}),
+ base:()=>({t:"BASE",i:[["DEC",()=>S.base=10],["HEX",()=>S.base=16],["BIN",()=>S.base=2],["OCT",()=>S.base=8]]})};
+const CUR=/^(?:[a-zA-Z#]+\(|Ans|Ran#|nPr|nCr|×10\^\(|d\/dx\(|[∫Σ]\()/,CUL=/(?:[a-zA-Z#]+\(|Ans|Ran#|nPr|nCr|×10\^\(|d\/dx\(|[∫Σ]\()$/;
+function edit(){if(S.done){S.done=0;S.res=null}}
+const A={
+ T:h=>{const t=h+"¦".repeat(HD[h]-1)+"⟧";put(t);S.cur-=t.length-1},pw:e=>put("↑"+e+"⟧"),bx:b=>{put(b);A.T("↑")},
+ neg:()=>put("−",1),hyp:()=>S.hyp=1,rcl:()=>S.pend="rcl",sto:()=>S.pend="sto",eng:()=>S.eng^=1,sd:()=>S.dec^=1,mixed:()=>S.mixed^=1,dms:()=>S.dms^=1,
+ t:n=>{if(S.hyp)n=n.replace(/(sin|cos|tan)/,"$1h");S.hyp=0;put(n+"(")},
+ mp:g=>{try{const v=S.done?S.ans:ev(toEng(S.ex));S.vars.M=(S.vars.M||0)+ +g*v;S.ans=v;if(!S.done){S.res={v};S.done=1;S.dec=/\./.test(S.ex)?1:0}}catch(e){S.err=typeof e==="string"?e:"Syntax ERROR"}},
+ eq,ac:()=>{S.ex="";S.cur=0;S.res=null;S.done=0;S.hyp=0;S.pend=0;S.menu=null;S.prompt=null;S.hi=-1},
+ off:()=>{S.off=1},ins:()=>S.ins^=1,soon:()=>{S.err="Not available"},
+ del:()=>{edit();{const s=S.ex,c=S.cur,p=s[c-1];if(HD[p]){const e=slotsOf(s,c-1),end=e[e.length-1][1];if(/^¦*$/.test(s.slice(c,end))){S.ex=s.slice(0,c-1)+s.slice(end+1);S.cur=c-1}else S.cur=c-1;return}if(p==="¦"||p==="⟧"){S.cur=c-1;return}}const b=S.ex.slice(0,S.cur),m=CUL.exec(b),n=m?m[0].length:b?1:0;S.ex=b.slice(0,b.length-n)+S.ex.slice(S.cur);S.cur-=n},
+ menu:n=>{S.menu=MN[n]()},
+ mv:d=>{if(d==="l"||d==="r"){if(S.done){S.done=0;S.res=null;S.cur=d==="l"?S.ex.length:0;return}
+   if(d==="l"){const m=CUL.exec(S.ex.slice(0,S.cur));S.cur=Math.max(0,S.cur-(m?m[0].length:1))}else{const m=CUR.exec(S.ex.slice(S.cur));S.cur=Math.min(S.ex.length,S.cur+(m?m[0].length:1))}return}
+  if(!S.done&&vmove(d))return;if(!S.hist.length)return;S.hi=d==="u"?Math.min(S.hist.length-1,S.hi+1):Math.max(0,S.hi-1);S.ex=S.hist[S.hi][0];S.cur=S.ex.length;S.res=null;S.done=0},
+ calc:()=>{if(!S.ex)return;const v=vars();if(!v.length)return eq();S.prompt={vs:v,i:0,buf:"",done:eq}},
+ solve:()=>{if(!S.ex.includes("=")){S.err="Syntax ERROR";return}S.prompt={vs:["X"],i:0,buf:"",done:doSolve}}
+};
+function run(a){if(a===undefined||a==="")return;if(a[0]==="@"){const[f,x]=a.slice(1).split(":");A[f](x)}else put(a)}
+
+function press(id){
+ if(S.off){if(id==="on"){S.off=0;A.ac()}render();return}
+ const sh=S.shift,al=S.alpha;S.err="";
+ if(id==="shift"){S.shift=sh?0:1;S.alpha=0;return render()}
+ if(id==="alpha"){S.alpha=al?0:1;S.shift=0;return render()}
+ S.shift=S.alpha=0;
+ if(S.prompt){const P=S.prompt;
+  if(/^d\d$/.test(id))P.buf+=id[1];else if(id==="dot")P.buf+=".";else if(id==="neg"||id==="sub")P.buf=P.buf[0]==="−"?P.buf.slice(1):"−"+P.buf;
+  else if(id==="del")P.buf=P.buf.slice(0,-1);else if(id==="ac")S.prompt=null;
+  else if(id==="eq"){try{if(P.buf)S.vars[P.vs[P.i]]=ev(P.buf)}catch(e){}P.i++;P.buf="";if(P.i>=P.vs.length){S.prompt=null;P.done()}}
+  return render()}
+ if(S.pend){const p=S.pend,L=LM[id];S.pend=0;if(L){if(p==="sto"){S.vars[L]=S.ans}else put(L)}return render()}
+ if(S.menu){const m=S.menu;if(/^d\d$/.test(id)){const n=+id[1];
+   if(m.dg){S.menu=null;S.fmt=m.dg;S.dig=m.dg==="S"&&n===0?10:n;S.eng=0;return render()}
+   if(n>=1&&n<=m.i.length){S.menu=null;m.i[n-1][1]();return render()}return render()}
+  S.menu=null;if(id==="ac"||id==="mode")return render()}
+ const k=KM[id];if(!k)return;
+ if(id!=="hyp"&&S.hyp&&!/^(sin|cos|tan)$/.test(id))S.hyp=0;
+ run(k[sh?1:al?2:0]);render()}
+
+function render(){
+ const lcd=$("#lcd");lcd.classList.toggle("off",!!S.off);if(S.off)return;
+ const on=(id,c)=>$(id).classList.toggle("on",!!c);
+ on("#iS",S.shift);on("#iA",S.alpha);on("#iH",S.hyp);on("#iM",S.vars.M);on("#iO",S.pend);on("#iF",S.fmt!=="N"||S.eng||S.base!==10);
+ $("#iD").textContent={D:"D",R:"R",G:"G"}[S.ang];on("#iD",1);
+ $("#iF").textContent=S.base!==10?{16:"HEX",2:"BIN",8:"OCT"}[S.base]:S.eng?"ENG":S.fmt==="F"?"FIX":S.fmt==="S"?"SCI":"";
+ $("#iL").textContent=S.math?"Math ▼▲":"Line";
+ $("#k_shift").classList.toggle("on",!!S.shift);$("#k_alpha").classList.toggle("on",!!S.alpha);
+ const L=$("#ln"),R=$("#rs");R.className="rs";L.className="ln"+(S.done?" done":"");
+ if(S.menu){const m=S.menu;L.innerHTML=`<span class="mt">${m.t}</span>`;L.style.cssText="overflow:visible;white-space:normal;line-height:1.2;min-height:0;font-size:4cqw";
+  R.innerHTML=m.i?`<div class="mn" style="width:100%;text-align:left">${m.i.map((x,i)=>`<span>${i+1}:${x[0]}</span>`).join("")}</div>`:"";
+  R.style.cssText="margin-top:0;justify-content:flex-start;align-items:flex-start;font-size:4cqw";return}
+ L.style.cssText="";R.style.cssText="";
+ L.innerHTML=view(S.ex,S.cur);
+ const cu=L.querySelector(".cu");L.scrollLeft=Math.max(0,cu.offsetLeft-L.clientWidth+30);
+ if(S.prompt){const P=S.prompt;R.innerHTML=`${P.vs[P.i]}? ${esc(P.buf)||fmtNum(S.vars[P.vs[P.i]]||0)}`;R.classList.add("err");return}
+ if(S.err){R.textContent=S.err;R.classList.add("err")}else R.innerHTML=resHTML()}
+
+/* ---------- events ---------- */
+document.addEventListener("click",e=>{const b=e.target.closest("[data-k]");if(b){b.blur();try{navigator.vibrate&&navigator.vibrate(6)}catch(_){}press(b.dataset.k);return}
+ const h=e.target.closest("[data-h]");if(h){const x=S.hist[+h.dataset.h];S.ex=x[0];S.cur=x[0].length;S.done=0;S.res=null;render()}});
+addEventListener("keydown",e=>{if(e.ctrlKey||e.metaKey||e.altKey)return;const k=e.key;
+ const M={Enter:"eq","=":"eq",Backspace:"del",Escape:"ac",Delete:"ac",ArrowLeft:"left",ArrowRight:"right",ArrowUp:"up",ArrowDown:"down",".":"dot","+":"add","-":"sub","*":"mul","/":"div","^":"pw",r:"sqrt"};
+ let id=/^\d$/.test(k)?"d"+k:M[k];
+ if(id){e.preventDefault();return press(id)}
+ const T={"(":"(",")":")","!":"!","%":"%",",":",",s:"sin(",c:"cos(",t:"tan(",l:"log(",n:"ln(",p:"π",e:"e",a:"Ans"}[k];
+ if(T&&!S.menu&&!S.prompt&&!S.off){e.preventDefault();S.shift=S.alpha=0;put(T);render()}});
+const root=document.documentElement;
+function theme(t){root.dataset.t=t;$("#theme").textContent=t==="dark"?"লাইট মোড":"ডার্ক মোড";try{localStorage.setItem("calc-theme",t)}catch(_){}}
+$("#theme").onclick=()=>theme(root.dataset.t==="dark"?"light":"dark");
+let t0=null;try{t0=localStorage.getItem("calc-theme")}catch(_){}
+theme(t0||(matchMedia("(prefers-color-scheme:dark)").matches?"dark":"light"));
+render();
+</script>
+</body>
+</html>
